@@ -1,0 +1,12 @@
+[
+    {
+      "name": "Jane Doe",
+      "favorite-game": "Stardew Valley",
+      "subscriber": false
+    },
+    {
+      "name": "John Doe",
+      "favorite-game": "Dragon Quest XI",
+      "subscriber": true
+    }
+  ]

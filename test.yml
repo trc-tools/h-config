@@ -1,0 +1,9 @@
+--- 
+- 
+  favorite-game: "Stardew Valley"
+  name: "Jane Doe"
+  subscriber: false
+- 
+  favorite-game: "Dragon Quest XI"
+  name: "John Doe"
+  subscriber: true
