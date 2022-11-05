@@ -6,10 +6,9 @@ import System.Directory (doesFileExist)
 import Data.Text
 import Data.Yaml as Y
 import Data.Aeson
-    ( eitherDecode, (.:), FromJSON(parseJSON), Value(Object) )
+    ( eitherDecode, (.:), FromJSON(parseJSON), Value(Object), eitherDecodeStrict', eitherDecodeStrict )
 import Control.Monad (mzero)
-import qualified Data.ByteString.Lazy as B
-import qualified Data.Aeson as Y
+import qualified Data.ByteString as B
 import System.FilePath.Posix as P
 
 data Profile = 
@@ -45,12 +44,17 @@ main = do
         _ -> putStrLn "Too many arguments. Only 1 argument expected."
 
 
+yamlDecode :: FromJSON a => B.ByteString ->  Either String a
+yamlDecode a = case Y.decodeEither' a of  
+  Left pe -> Left $ show pe
+  Right a' -> Right a'
+
 parse :: FilePath -> IO (Either String [Profile])
 parse fp = 
     let fileContent = B.readFile fp in
         case takeExtension fp of 
-        ".yml" -> Y.eitherDecode  <$> fileContent
-        ".json" -> eitherDecode <$> fileContent
+        ".yml" -> yamlDecode <$> fileContent
+        ".json" -> eitherDecodeStrict <$> fileContent
         _ -> return $ Left "Unknown extension"
 
 validate :: FilePath -> IO Bool
